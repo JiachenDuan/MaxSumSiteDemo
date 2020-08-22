@@ -39,7 +39,7 @@ Test Flow:
                            2        1
 
               Input 2: "1 2 # 5 2 # # # 6 9 # 1 # # 7 # #" (maxSum path: 1->6->9->1)
-               MaxSum: 17
+              MaxSum: 17
 
               Tree 3:
                            1
@@ -47,7 +47,7 @@ Test Flow:
                    5    8  6      7
                         1
               Input 3: "1 3 5 # # 8 1 # # # 3 6 # # 7 # #"  (maxSum: 1-> 3 -> 8 ->1)
-               MaxSum: 13
+              MaxSum: 13
 Front End App:
 TODO
 
