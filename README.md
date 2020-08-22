@@ -25,7 +25,7 @@ Backend App:
 Test Flow:
 1. sign up the website by providing email/password after logging in, it will launch maxSum calculation page
 2. if already login, you can chose sign in directly.
-2. Pass serialized binary tree string: 1 2 # 5 1 # # # 3 6 # # 7 # #, to calculate maxSum.
+2. Pass serialized binary tree string: 1 2 # 5 1 # # # 3 6 # # 7 # #, you should see the maxSum
               Tree1:
                              1
                           2         3
