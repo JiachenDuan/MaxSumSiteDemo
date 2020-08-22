@@ -26,6 +26,7 @@ Test Flow:
 1. sign up the website by providing email/password after logging in, it will launch maxSum calculation page
 2. if already login, you can chose sign in directly.
 3. Pass serialized binary tree string to calculate maxSum
+```
               Tree1:
                              1
                           2         3
@@ -49,6 +50,7 @@ Test Flow:
                         1
               Input 3: "1 3 5 # # 8 1 # # # 3 6 # # 7 # #"  (maxSum: 1-> 3 -> 8 ->1)
               MaxSum: 13
+```
 Front End App:
 TODO
 
