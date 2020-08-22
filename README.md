@@ -28,7 +28,7 @@ Test Flow:
 3. Pass serialized binary tree string to calculate maxSum
 ```
               Tree1:
-                             1
+                               1
                           2         3
                              5    6   7
                            1
