@@ -1,7 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.filters.JwtRequestFilter;
-import com.example.demo.services.MyUserDetailsService;
+import com.example.demo.services.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,43 +18,43 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfigure extends WebSecurityConfigurerAdapter {
 
-  @Autowired private MyUserDetailsService myUserDetailsService;
-  @Autowired private JwtRequestFilter jwtRequestFilter;
+    @Autowired
+    private AuthUserService authUserService;
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
 
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(myUserDetailsService);
-  }
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(authUserService);
+    }
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http.csrf()
-        .disable()
-        .authorizeRequests()
-        .antMatchers("/authenticate")
-        .permitAll()
-        .antMatchers("/register")
-        .permitAll()
-        .anyRequest()
-        .authenticated()
-        .and()
-        .sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-  }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
 
-  @Override
-  @Bean
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
-  }
+        http.csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/authenticate")
+                .permitAll()
+                .antMatchers("/register")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        http.cors();
 
-  //    /**
-  //     * SPing don't has the password
-  //     * @return
-  //     */
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+    }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

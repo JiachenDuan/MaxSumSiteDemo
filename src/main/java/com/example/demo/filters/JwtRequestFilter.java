@@ -1,6 +1,6 @@
 package com.example.demo.filters;
 
-import com.example.demo.services.MyUserDetailsService;
+import com.example.demo.services.AuthUserService;
 import com.example.demo.utils.JwtUtil;
 import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,45 +20,46 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-  @Autowired private MyUserDetailsService userDetailsService;
-  @Autowired private JwtUtil jwtUtil;
+    @Autowired
+    private AuthUserService userDetailsService;
+    @Autowired
+    private JwtUtil jwtUtil;
 
-  @Override
-  protected void doFilterInternal(
-      HttpServletRequest httpServletRequest,
-      HttpServletResponse httpServletResponse,
-      FilterChain filterChain)
-      throws ServletException, IOException {
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest httpServletRequest,
+            HttpServletResponse httpServletResponse,
+            FilterChain filterChain)
+            throws ServletException, IOException {
 
-    final String authorizationHeader = httpServletRequest.getHeader("Authorization");
+        final String authorizationHeader = httpServletRequest.getHeader("Authorization");
 
-    String username = null;
-    String jwt = null;
+        String username = null;
+        String jwt = null;
 
-    if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-      try{
-      jwt = authorizationHeader.substring(7);
-      username = jwtUtil.extractUsername(jwt);
-      }catch (MalformedJwtException e){
-        throw new ServletException("Token is invalid" + e.getMessage());
-      }
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            try {
+                jwt = authorizationHeader.substring(7);
+                username = jwtUtil.extractUsername(jwt);
+            } catch (MalformedJwtException e) {
+                throw new ServletException("Token is invalid" + e.getMessage());
+            }
+        }
+
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+            if (jwtUtil.validateToken(jwt, userDetails)) {
+
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                        new UsernamePasswordAuthenticationToken(
+                                userDetails, null, userDetails.getAuthorities());
+                usernamePasswordAuthenticationToken.setDetails(
+                        new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            }
+        }
+        filterChain.doFilter(httpServletRequest, httpServletResponse); // handoff to next filter
     }
-
-    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-      UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-      // TODO: what is securityContextHolder Context?
-      if (jwtUtil.validateToken(jwt, userDetails)) {
-
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-            new UsernamePasswordAuthenticationToken(
-                userDetails, null, userDetails.getAuthorities());
-        usernamePasswordAuthenticationToken.setDetails(
-            new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-      }
-    }
-    filterChain.doFilter(httpServletRequest, httpServletResponse); // handoff to next filter
-  }
 }

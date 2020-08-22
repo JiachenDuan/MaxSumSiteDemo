@@ -1,15 +1,16 @@
 package com.example.demo.models;
 
 public class MaxsumRequest {
-  private String serializedBinaryTree;
+    private String serializedBinaryTree;
 
-  public MaxsumRequest() {}
+    public MaxsumRequest() {
+    }
 
-  public String getSerializedBinaryTree() {
-    return serializedBinaryTree;
-  }
+    public String getSerializedBinaryTree() {
+        return serializedBinaryTree;
+    }
 
-  public void setSerializedBinaryTree(String serializedBinaryTree) {
-    this.serializedBinaryTree = serializedBinaryTree;
-  }
+    public void setSerializedBinaryTree(String serializedBinaryTree) {
+        this.serializedBinaryTree = serializedBinaryTree;
+    }
 }
