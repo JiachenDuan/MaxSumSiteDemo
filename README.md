@@ -21,8 +21,10 @@ Backend App:
 3. Run mysql locally:
     docker run --name localhost -e MYSQL_ROOT_PASSWORD=1234567890 -e MYSQL_DATABASE=AppNewsDb -d mysql:8.0.21
 
-4. Run docker container(Please replace "24dafbaa98ba" below with actual container ID on your local )
-    docker run --name -d -p 8080:8080 --name 24dafbaa98ba --link localhost:mysql jiachenduan/apple-demo:demo
+4. Find docker images id
+    docker images
+5. Run docker container(Please replace "1aeee28fa70e" below with actual container ID on your local )
+    docker run --name -d -p 8080:8080 --name 1aeee28fa70e --link localhost:mysql jiachenduan/apple-demo:demo
 
 Frontend App:
 1. Pull docker image from Docker hub:
@@ -33,7 +35,7 @@ docker pull jiachenduan/apple-demo-ui:demo
 
 Test Flow:
 1. sign up the website by providing email/password after logging in, it will launch maxSum calculation page
-2. if already login, you can chose sign in directly.
+2. if already have an account, you can chose sign in directly.
 3. Pass a preorder serialized binary tree string to calculate maxSum
 ```
               Tree1:
@@ -64,10 +66,10 @@ Test Flow:
 ```
 
 Frontend HIGHLIGHTS:
-- React router
-- Responsive Web Design
-- Performance optimizations with useCallback,etc.s
-- Handle user authentication in modern React Applications with context and hooks. Taking a branch higher up in the tree of app simplifies the maintenance authentication of app
+1. React router
+2. Responsive Web Design
+3. Performance optimizations with useCallback,etc.s
+4. Handle user authentication in modern React Applications with context and hooks.
 
 
 Backend HIGHLIGHTS:
