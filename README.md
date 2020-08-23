@@ -2,7 +2,7 @@
 
 Technical Doc:
 
-Front End: ReactJs
+Front End: ReactJs 16.13.1  node 10.13.0
 
 Back End: Spring boots 2.3.3
 
@@ -34,7 +34,7 @@ Test Flow:
                           2         3
                              5    6   7
                            1
-              Input 1: "1 2 # 5 1 # # # 3 6 # # 7 # #" (maxSum: 1->2->5->1)
+              Input 1: "1,2,#,5,1,#,#,#,3,6,#,#,7,#,#" (maxSum: 1->2->5->1)
               MaxSum: 9
               Tree2:
                                 1
@@ -42,7 +42,7 @@ Test Flow:
                              5    9     7
                            2        1
 
-              Input 2: "1 2 # 5 2 # # # 6 9 # 1 # # 7 # #" (maxSum path: 1->6->9->1)
+              Input 2: "1,2,#,5,2,#,#,#,6,9,#,1,#,#,7,#,#" (maxSum path: 1->6->9->1)
               MaxSum: 17
 
               Tree 3:
@@ -50,7 +50,7 @@ Test Flow:
                        3        3
                    5    8  6      7
                         1
-              Input 3: "1 3 5 # # 8 1 # # # 3 6 # # 7 # #"  (maxSum: 1-> 3 -> 8 ->1)
+              Input 3: "1,3,5,#,#,8,1,#,#,#,3,6,#,#,7,#,#"  (maxSum: 1-> 3 -> 8 ->1)
               MaxSum: 13
 ```
 Front End App:
@@ -60,6 +60,9 @@ Key feature:
 1. The App is implemented with Jwt token based authentication. Token expiration time is 24 hours
 2. Added cache on masSum service, when a user query with the same serialized tree, api will return cached results.
 3. Added customized GlobalExceptionHandler for Exception
+NOTES:
+1. When input serialized binary tree is too big, we can implement multipart/form-data to upload serialized tree data.
+
 Project structure:
 Under com.example.demo
     - exception: contains customized exception handler

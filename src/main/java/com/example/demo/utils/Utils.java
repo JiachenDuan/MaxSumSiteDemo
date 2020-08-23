@@ -1,5 +1,6 @@
 package com.example.demo.utils;
 
+import com.example.demo.exception.InvalidInputException;
 import datastructure.TreeNode;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,8 @@ public class Utils {
 
     private int maxLen;
     private int maxSum;
+    private final String INVALID_BINARY_TREE_ERROR_MESSAGE = "Invalid Serialized Binary Tree. Each node should be separated by , and " +
+            "use # as null node. Example: 1,2,#,5,2,#,#,#,6,9,#,1,#,#,7,#,# ";
 
     /**
      * deserialize binary tree string and look up the max sum
@@ -23,9 +26,13 @@ public class Utils {
     @Cacheable(value = "maxsum")
     public int getMaxSumFromSerializedBinaryTree(String serializedBinaryTree) throws Exception {
         if (serializedBinaryTree != null && serializedBinaryTree.length() != 0) {
-            return getMaxSum(deserialize(serializedBinaryTree));
+            //Must contains , and # and only allow 0-9 , and # in the input
+            if (!serializedBinaryTree.matches("^(?=.*\\,+)(?=.*\\#+)[0-9#,]*$"))
+                throw new InvalidInputException(INVALID_BINARY_TREE_ERROR_MESSAGE);
+            TreeNode root = deserialize(serializedBinaryTree);
+            return getMaxSum(root);
         }
-        throw new Exception("Serialized Binary Tree passed in is null");
+        throw new InvalidInputException("Serialized Binary Tree passed in is null");
     }
 
     /**
@@ -63,10 +70,16 @@ public class Utils {
      * @param data
      * @return
      */
-    private TreeNode deserialize(String data) {
+    private TreeNode deserialize(String data) throws InvalidInputException {
         Queue<String> queue = new LinkedList<>();
-        queue.addAll(Arrays.asList(data.split(" ")));
-        return buildTree(queue);
+        queue.addAll(Arrays.asList(data.split(",")));
+        try {
+            TreeNode root = buildTree(queue);
+            return root;
+        } catch (NullPointerException ex) {
+            throw new InvalidInputException(INVALID_BINARY_TREE_ERROR_MESSAGE);
+        }
+
     }
 
     /**
