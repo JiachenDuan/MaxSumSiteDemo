@@ -99,4 +99,4 @@ Under com.example.demo
     - DemoApplication: contains the main class
     - DemoController: contains the api end points
     - SecurityConfigure: has the configs for spring security
-    ```
+```    
