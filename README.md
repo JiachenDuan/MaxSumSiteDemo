@@ -78,7 +78,7 @@ Backend HIGHLIGHTS:
 3. Added customized GlobalExceptionHandler for Exception
 NOTES:
 1. When input serialized binary tree is too big, we can implement multipart/form-data to upload serialized tree data.
-
+```
 Frontend Project structure:
      - index.js: Entry point for app
      - App.js: Route Matchers
@@ -99,3 +99,4 @@ Under com.example.demo
     - DemoApplication: contains the main class
     - DemoController: contains the api end points
     - SecurityConfigure: has the configs for spring security
+    ```
